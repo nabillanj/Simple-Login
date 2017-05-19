@@ -54,12 +54,13 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl(BASE_URL)
                 .build();
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        Call<UsersPOJO> userPojo = apiInterface.postData(uname, password);
+        Call<UsersPOJO> userPojo = apiInterface.getData();
         Log.d("TEST", String.valueOf(userPojo.request().url()));
-        userPojo.enqueue(new Callback<UsersPOJO>() {
+        Call<UsersPOJO> test = apiInterface.getData();
+        Log.d("TEST", String.valueOf(test.request().url()));
+        test.enqueue(new Callback<UsersPOJO>() {
             @Override
             public void onResponse(Call<UsersPOJO> call, Response<UsersPOJO> response) {
-
                 for (int i = 0; i<response.body().getUsers().size();i++){
                     email = response.body().getUsers().get(i).getEmail();
                     password  = response.body().getUsers().get(i).getPassword();
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences setSharedPreferences = getSharedPreferences("token", MODE_PRIVATE);
                         SharedPreferences.Editor editor = setSharedPreferences.edit();
                         editor.putString("token", email);
-                        editor.commit();
+                        editor.apply();
                         startActivity(new Intent(MainActivity.this, DetailActivity.class));
                         break;
                     }else{
@@ -77,12 +78,11 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-
             }
 
             @Override
             public void onFailure(Call<UsersPOJO> call, Throwable t) {
-                Log.d("TEST_ERROR", t.toString());
+
             }
         });
     }

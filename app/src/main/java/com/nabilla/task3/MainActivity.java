@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.nabilla.task3.POJO.UsersPOJO;
+import com.nabilla.task3.Model.Users;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,13 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl(BASE_URL)
                 .build();
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        Call<UsersPOJO> userPojo = apiInterface.getData();
-        Log.d("TEST", String.valueOf(userPojo.request().url()));
-        Call<UsersPOJO> test = apiInterface.getData();
-        Log.d("TEST", String.valueOf(test.request().url()));
-        test.enqueue(new Callback<UsersPOJO>() {
+        Call<Users> test = apiInterface.getData();
+        test.enqueue(new Callback<Users>() {
             @Override
-            public void onResponse(Call<UsersPOJO> call, Response<UsersPOJO> response) {
+            public void onResponse(Call<Users> call, Response<Users> response) {
                 for (int i = 0; i<response.body().getUsers().size();i++){
                     email = response.body().getUsers().get(i).getEmail();
                     password  = response.body().getUsers().get(i).getPassword();
@@ -81,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<UsersPOJO> call, Throwable t) {
+            public void onFailure(Call<Users> call, Throwable t) {
 
             }
         });

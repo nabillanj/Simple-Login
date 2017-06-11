@@ -1,10 +1,10 @@
-package com.nabilla.task3.POJO;
+package com.nabilla.task3.Model;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserPOJO {
+public class User {
     private Integer id;
     private String email;
     private String password;
